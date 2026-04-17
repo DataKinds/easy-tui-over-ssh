@@ -28,7 +28,7 @@ Then, bring up the Docker Compose cluster how you've always done it. Modify the 
 
 Now!
 
-Okay, not Now™, but soon. I have the SSH shelling framework and IAM system set up. Who knew that `authorized_keys` let you attach arbitrary metadata to public keys? How cool!
+Access the `$USER_UUID` environment variable from within your app and start serving customized user experiences right now.
 
 ## WHO IS IT? WHERE IS IT? WHENCE IS IT?
 

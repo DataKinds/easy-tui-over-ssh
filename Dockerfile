@@ -62,4 +62,5 @@ CMD ["/usr/sbin/sshd", "-De"]
 ###############################################################################################################
 # Copy in the app folder, give it to the SSH user that's running the app
 ADD --chown=${APP_USER_LOGIN}:${APP_USER_LOGIN} app/ /app
+RUN chmod -R +x /app
 # Do whatever else you need to in order to build or set up your app here! You want volumes? Watchdogs? You got it!

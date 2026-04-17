@@ -1,5 +1,14 @@
 services:
   tunnel:
-    build: .
+    build: 
+      context: .
+      args:
+        # What's the username+password people will use to go through first-time registration on your server?
+        NEW_USER_LOGIN: new-user
+        NEW_USER_PASSWORD: login
+        # What's the username that will allow registered people to access the TUI app?
+        APP_USER_LOGIN: app
+        # What's the forward-deployed hostname/port pair for the app? Used for error messages and instructions
+        APP_DEPLOYED_HOSTPORT: localhost:1337
     ports:
       - 1337:22

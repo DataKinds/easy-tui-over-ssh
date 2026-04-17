@@ -17,6 +17,7 @@ connect_message() {
     echo "This setup process is supported by https://github.com/DataKinds/easy-tui-over-ssh."
     echo "Please paste your public SSH key, then press Enter."
     echo "Note that whatever key you paste here will be linked to your account forever and always. So paste carefully!"
+    echo ""
 }
 
 # expects the user UUID to passed as the first param
@@ -37,7 +38,7 @@ disconnect_message() {
 }
 
 if [ -n "${USER_UUID:-}" ]; then
-    disconnect_message 
+    disconnect_message "$USER_UUID"
 fi
 
 connect_message
