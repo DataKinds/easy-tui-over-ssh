@@ -34,7 +34,7 @@ Include /etc/ssh/sshd_config.d/*.conf
 
 #LoginGraceTime 2m
 #PermitRootLogin prohibit-password
-#StrictModes yes
+StrictModes no # Allow for APP_USER and NEW_USER to share an authorized_keys file
 #MaxAuthTries 6
 #MaxSessions 10
 
@@ -120,4 +120,8 @@ Match User NEW_USER_LOGIN
     PasswordAuthentication yes
     PermitEmptyPasswords yes
     ForceCommand ~/first_connect.sh
+    SetEnv DEPLOYED_HOSTPORT=APP_DEPLOYED_HOSTPORT  DEPLOYED_APP_USER=APP_USER_LOGIN
 
+# config specific to users connecting to the app
+Match User APP_USER_LOGIN
+    ForceCommand /app/entry

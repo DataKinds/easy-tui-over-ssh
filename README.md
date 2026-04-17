@@ -16,9 +16,11 @@ This, my friends, is as off-the-shelf as it gets. Docker and OpenSSH, superpower
 
 ## HOW IS IT USED?
 
-Fork this repo, move your code into the `app/` directory, then modify `entry.sh` to call your code!
+Fork this repo, move your code into the `app/` directory, then modify `app/entry` to call your code!
 
-If your app needs special setup to run under Docker, add that setup to the `Dockerfile`, which (will be, TODO) empty and ready for you to modify.
+If your app needs special setup to run under Docker, open the `Dockerfile` and scroll to the bottom. Find the comment for "USER BUILD SETUP", and put your thinking hat on! 
+
+There's no good way around mandating a particular distro for the setup, and in this case I've chosen Alpine as it's a good noodle and works well in Docker.
 
 Then, bring up the Docker Compose cluster how you've always done it. Modify the port allocations in `compose.yml`, modify whatever user-facing arguments you'd like -- they're all described in the compose file, then `docker compose up --build --remove-orphans`.
 
