@@ -13,7 +13,7 @@ DEPLOYED_HOST=$(echo "$DEPLOYED_HOSTPORT" | cut -d ':' -f 1)
 DEPLOYED_PORT=$(echo "$DEPLOYED_HOSTPORT" | cut -d ':' -f 2)
 
 connect_message() {
-    echo "HELLO! Welcome to the first-time setup for $HOSTNAME."
+    echo "HELLO! Welcome to the first-time setup for $DEPLOYED_HOST."
     echo "This setup process is supported by https://github.com/DataKinds/easy-tui-over-ssh."
     echo "Please paste your public SSH key, then press Enter."
     echo "Note that whatever key you paste here will be linked to your account forever and always. So paste carefully!"
@@ -36,9 +36,9 @@ disconnect_message() {
     exit 0
 }
 
-
-# mkdir -p "$SSH_DIR"
-# chmod 700 "$SSH_DIR"
+if [ -n "${USER_UUID:-}" ]; then
+    disconnect_message 
+fi
 
 connect_message
 

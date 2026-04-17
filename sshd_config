@@ -60,7 +60,7 @@ AuthorizedKeysFile      .ssh/authorized_keys
 # Change to "no" to disable keyboard-interactive authentication.  Depending on
 # the system's configuration, this may involve passwords, challenge-response,
 # one-time passwords or some combination of these and other methods.
-#KbdInteractiveAuthentication yes
+KbdInteractiveAuthentication no
 
 # Kerberos options
 #KerberosAuthentication no
@@ -114,11 +114,12 @@ Subsystem       sftp    internal-sftp
 # To disable tunneled clear text passwords, change to "no" here!
 PasswordAuthentication no
 PermitEmptyPasswords no
+KbdInteractiveAuthentication no
 
 # config specific to first-time user setup (users interacting with first_connect.sh)
 Match User NEW_USER_LOGIN
     PasswordAuthentication yes
-    PermitEmptyPasswords yes
+    KbdInteractiveAuthentication yes
     ForceCommand ~/first_connect.sh
     SetEnv DEPLOYED_HOSTPORT=APP_DEPLOYED_HOSTPORT  DEPLOYED_APP_USER=APP_USER_LOGIN
 

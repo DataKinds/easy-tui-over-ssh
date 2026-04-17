@@ -2,6 +2,7 @@ FROM alpine:latest
 
 # What's the name of the Unix user that will allow people to register on the server?
 ARG NEW_USER_LOGIN=new-user
+ARG NEW_USER_PASSWORD=login
 # What's the name of the Unix user that will allow people to access the TUI app?
 ARG APP_USER_LOGIN=app
 # What's the forward-deployed hostname/port pair for the app? Used for error messages and instructions
@@ -24,7 +25,9 @@ RUN \
 #   * the APP_USER_LOGIN, allowing registered users into the app
 RUN usermod -p '' root
 RUN useradd -m -p '' ${APP_USER_LOGIN}
-RUN useradd -m -p '' ${NEW_USER_LOGIN} && usermod -a -G ${APP_USER_LOGIN} ${NEW_USER_LOGIN}
+RUN useradd -m -p '' ${NEW_USER_LOGIN} && \
+    usermod -a -G ${APP_USER_LOGIN} ${NEW_USER_LOGIN} && \
+    echo "${NEW_USER_LOGIN}:${NEW_USER_PASSWORD}" | chpasswd
 # Set up the APP_USER's authorized_keys to be linked to the NEW_USER's authorized_keys
 # (remember: chmod 0770 means "read+write+execute for only me and my group")
 USER ${APP_USER_LOGIN} 
