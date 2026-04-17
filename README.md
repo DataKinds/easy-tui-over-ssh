@@ -2,7 +2,7 @@
 
 ## WHAT IS IT?
 
-A quick way to spin up and serve TUI based applications without modifying their code. Directly serve a TUI application to your users and track unique sessions using environment variables attached to a user's public key.
+A quick way to spin up and serve TUI based applications without modifying their code. Directly serve a TUI application to your users and track unique sessions using environment variables attached to a user's public key. And do it all without writing a single line of code.
 
 ## WHY IS IT?
 
@@ -18,7 +18,9 @@ This, my friends, is as off-the-shelf as it gets. Docker and OpenSSH, superpower
 
 Fork this repo, move your code into the `app/` directory, then modify `entry.sh` to call your code!
 
-If your app needs special setup to run under Docker, add that setup to the `Dockerfile`, which (will be) empty and ready for you to modify.
+If your app needs special setup to run under Docker, add that setup to the `Dockerfile`, which (will be, TODO) empty and ready for you to modify.
+
+Then, bring up the Docker Compose cluster how you've always done it. Modify the port allocations in `compose.yml`, modify whatever user-facing arguments you'd like -- they're all described in the compose file, then `docker compose up --build --remove-orphans`.
 
 ## WHEN IS IT?
 
