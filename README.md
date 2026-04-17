@@ -16,6 +16,8 @@ This, my friends, is as off-the-shelf as it gets. Docker and OpenSSH, superpower
 
 ## HOW IS IT USED?
 
+### ... *for developers*
+
 Fork this repo, move your code into the `app/` directory, then modify `app/entry` to call your code!
 
 If your app needs special setup to run under Docker, open the `Dockerfile` and scroll to the bottom. Find the comment for "USER BUILD SETUP", and put your thinking hat on! 
@@ -24,12 +26,71 @@ There's no good way around mandating a particular distro for the setup, and in t
 
 Then, bring up the Docker Compose cluster how you've always done it. Modify the port allocations in `compose.yml`, modify whatever user-facing arguments you'd like -- they're all described in the compose file, then `docker compose up --build --remove-orphans`.
 
+### ... *for users*
+
+Using an app deployed through this paved road is easy. It's just a normal SSH connection, so it'll work with any of the standard tools you're used to working with. Terminal multiplexers are no issue here. Getting set up is an easy process:
+
+#### Generate your SSH key, if you haven't already!
+
+Follow the prompts on screen -- it'll ask you where to put the key and if you want a password. Customize as desired but the defaults should be fine.
+
+```
+$ ssh-keygen -t ed25519
+```
+
+#### Copy your SSH key to the clipboard
+
+```
+$ cat ~/.ssh/id_ed25519.pub
+```
+
+#### Then finally, connect to the new user registration SSH box!
+
+The command below uses the default values (`new-user` and `1337`, namely) for the paved road. Whoever's deployed the application has probably customized these values, so make sure to check with them! This command will then give you all the instructions you need to start using the app. Have fun!
+
+```
+$ ssh -p 1337 new-user@my.epic.app.gov
+```
+
 ## WHEN IS IT?
 
 Now!
 
 Access the `$USER_UUID` environment variable from within your app and start serving customized user experiences right now.
 
-## WHO IS IT? WHERE IS IT? WHENCE IS IT?
+### BRIEF ROADMAP
+
+There are a few open areas to improve the paved road. Interested in helping? [Open a pull request now](https://github.com/DataKinds/easy-tui-over-ssh/pulls)!
+
+* Support for account deletion, through a separate Unix user and confirmation flow.
+* Support for account staleness calculations, tracking user registration dates and culling inactive users over a certain account age.
+    * This'll probably also imply adding a DB to the Compose file and interacting with that, or pulling in Sqlite during the tunnel container setup.
+* Bandwidth testing, along with exposing a number of OpenSSH options to help manage connected clients (`KeepAlive`, etc).
+* Simplifying the user registration flow
+    * Prompting the user whether they want to directly launch the app after first time registration.
+    * More research is required to figure out whether it's possible to stop prompting a user directly for their public key.
+* Proper Docker volume setup to persist the authorized users between container launches. 
+* Rate limiting on account creation.
+* Root access for a single preconfigured keypair.
+
+## WHENCE IS IT? (FAQ)
+
+### How does it authenticate users?
+
+A unique UUID is attached to your public key pair on the server when you connect to the new user box for the first time. Then going forward, a user's public/private keypair is how they authenticate.
+
+### Can I make multiple accounts?
+
+Yes! Your account information is attached to your public/private keypair, so if you set up a new keypair and register with that you'll be able to have multiple accounts. When you connect to the application, you can use the `-i` flag on `ssh` to pass a specific private key.
+
+### How many Unix users are set up under SSHD?
+
+We configure 3 user accounts when we create the SSH tunnel container:
+
+* `root`, which will be available for application administration -- however right now you're not able to connect to it (see roadmap above).
+* `new-user`, configurable as `NEW_USER_LOGIN`/`NEW_USER_PASSWORD` -- this Unix box allows users to register their public keys.
+* `app`, configurable as `APP_USER_LOGIN` -- this Unix box will actually serve your application as a custom shell.
+
+## WHO IS IT? WHERE IS IT? 
 
 https://datakinds.github.io/ / MIT licensed
