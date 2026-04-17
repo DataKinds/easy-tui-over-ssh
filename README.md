@@ -26,7 +26,7 @@ Then, bring up the Docker Compose cluster how you've always done it. Modify the 
 
 Now!
 
-Okay, not Now:tm:, but soon. I have the SSH shelling framework and IAM system set up. Who knew that `authorized_keys` let you attach arbitrary metadata to public keys? How cool!
+Okay, not Now™, but soon. I have the SSH shelling framework and IAM system set up. Who knew that `authorized_keys` let you attach arbitrary metadata to public keys? How cool!
 
 ## WHO IS IT? WHERE IS IT? WHENCE IS IT?
 
