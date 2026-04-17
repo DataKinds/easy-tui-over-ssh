@@ -1,0 +1,1 @@
+echo "Hello to user $USER_UUID!"
