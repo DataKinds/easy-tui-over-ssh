@@ -7,14 +7,16 @@ ARG NEW_USER_PASSWORD=login
 ARG APP_USER_LOGIN=app
 # What's the forward-deployed hostname/port pair for the app? Used for error messages and instructions
 ARG APP_DEPLOYED_HOSTPORT=localhost:1337
+# What public key should be configured to allow root access?
+ARG ROOT_TRUSTED_KEY
 
 
 # Set up OpenSSH and its required folder structure for root access
-RUN apk add --no-cache openssh shadow
+RUN apk add --no-cache openssh shadow docker
 RUN ssh-keygen -A
 RUN \
     mkdir -p /root/.ssh/ && \
-    touch /root/.ssh/authorized_keys && \
+    echo "${ROOT_TRUSTED_KEY}" > /root/.ssh/authorized_keys && \
     touch /root/.ssh/known_hosts && \
     chmod -R 0600 /root/.ssh/ && \
     chown -R root:root /root/.ssh/ 
@@ -45,9 +47,9 @@ RUN ln -s /home/${APP_USER_LOGIN}/.ssh/authorized_keys /home/${NEW_USER_LOGIN}/.
 
 # Setup the SSH config, including making the templated user modifications from the variables above
 ADD sshd_config /etc/ssh/sshd_config
-RUN sed -i "s/NEW_USER_LOGIN/${NEW_USER_LOGIN}/g" /etc/ssh/sshd_config
-RUN sed -i "s/APP_USER_LOGIN/${APP_USER_LOGIN}/g" /etc/ssh/sshd_config
-RUN sed -i "s/APP_DEPLOYED_HOSTPORT/${APP_DEPLOYED_HOSTPORT}/g" /etc/ssh/sshd_config
+RUN sed -i "s/NEW_USER_LOGIN/${NEW_USER_LOGIN}/g" /etc/ssh/sshd_config &&\
+    sed -i "s/APP_USER_LOGIN/${APP_USER_LOGIN}/g" /etc/ssh/sshd_config &&\
+    sed -i "s/APP_DEPLOYED_HOSTPORT/${APP_DEPLOYED_HOSTPORT}/g" /etc/ssh/sshd_config
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-De"]
