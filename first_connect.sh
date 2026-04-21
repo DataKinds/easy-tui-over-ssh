@@ -66,12 +66,8 @@ while :; do
   fi
 done
 
-# generate UUID (uuidgen not available in Alpine by default, but we fallback to /dev/urandom+hexdump)
-if command -v uuidgen >/dev/null 2>&1; then
-  UUID="$(uuidgen)"
-else
-  UUID="$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n' | sed 's/\(..\)/\1/g' | awk '{printf("%s-%s-%s-%s-%s\n", substr($0,1,8), substr($0,9,4), substr($0,13,4), substr($0,17,4), substr($0,21));}')"
-fi
+# generate UUID
+UUID="$(uuidgen)"
 
 # append to authorized_keys with environment tag
 # ensure the environment option is allowed by sshd (AcceptEnv not needed; environment= in authorized_keys is server-sided)

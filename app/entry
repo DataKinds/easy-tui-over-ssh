@@ -2,4 +2,6 @@
 
 echo "Hello to user $USER_UUID!"
 echo "Launching app..."
-sh
+
+APP_DIR=$(readlink -f $(dirname "$0"))
+/$APP_DIR/as_root.entry

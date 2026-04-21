@@ -1,0 +1,9 @@
+#!/bin/sh
+# This script should always have the SUID bit set and be owned by root.
+
+if [ "$(whoami)" != "root" ]; then
+    echo "Rerun the script as root."
+    exit 255
+fi
+
+docker ps 

@@ -12,7 +12,7 @@ ARG ROOT_TRUSTED_KEY
 
 
 # Set up OpenSSH and its required folder structure for root access
-RUN apk add --no-cache openssh shadow docker
+RUN apk add --no-cache openssh shadow docker uuidgen
 RUN ssh-keygen -A
 RUN \
     mkdir -p /root/.ssh/ && \
@@ -64,5 +64,8 @@ CMD ["/usr/sbin/sshd", "-De"]
 ###############################################################################################################
 # Copy in the app folder, give it to the SSH user that's running the app
 ADD --chown=${APP_USER_LOGIN}:${APP_USER_LOGIN} app/ /app
-RUN chmod -R +x /app
+RUN chmod -R +x /app &&\
+    chown root /app/as_root.entry &&\
+    chmod u+s /app/as_root.entry
+# ^ Set the permissions correctly for our entrypoint files to run containers on the host machine
 # Do whatever else you need to in order to build or set up your app here! You want volumes? Watchdogs? You got it!
