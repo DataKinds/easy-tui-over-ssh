@@ -17,11 +17,11 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:rw"
     ports:
       - 1337:22
-    watch:
-      action: sync
-      path: ./app
-      target: /app
-      initial_sync: true
+    # watch:
+    #   action: sync
+    #   path: ./app
+    #   target: /app
+    #   initial_sync: true
 
   # This compose entry is for your app!
   # app:
